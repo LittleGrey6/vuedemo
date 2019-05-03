@@ -1,104 +1,70 @@
 <template>
-    <el-row type="flex" class="row-bg" justify="center">
-      <el-col :span="6"><div class="grid-content bg-purple-dark" justify="center">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>用户登录界面</span>
-          </div>
-          <el-form :model="ruleForm2" status-icon :rules="rules2"  ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="用户名" prop="pass">
-              <el-input type="user" v-model="ruleForm2.pass" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="checkPass">
-              <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" :loading="false" @click="submitForm('ruleForm2')" >提交</el-button>
-            </el-form-item>
-          </el-form>
-        </el-card>
-
-      </div></el-col>
+    <el-row type="flex" class="row-bg login" justify="center" >
+        <el-col :span="6">
+            <el-card class="box-card">
+                <div slot="header">
+                    <span>用户登录</span>
+                </div>
+                <el-form label-position="top" :model="ruleForm" label-width="80px" :rules="rules" ref="login"  style="text-align: left;">
+                    <el-form-item label="用户名" prop="username">
+                        <el-input v-model="ruleForm.username" prefix-icon="el-icon-circle-check-outline"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码" prop="userpassword">
+                        <el-input v-model="ruleForm.userpassword" type="password" prefix-icon="el-icon-view"></el-input>
+                    </el-form-item>
+                    <el-button :loading="false" style="width: 100%;" type="primary" @click="submitForm('login')">登录</el-button>
+                </el-form>
+            </el-card>
+        </el-col>
     </el-row>
 </template>
+
 <script>
 export default {
-  name: 'login',
-
-  data() {
-    var checkAge = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('年龄不能为空'));
-      }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('请输入数字值'));
-        } else {
-          if (value < 18) {
-            callback(new Error('必须年满18岁'));
-          } else {
-            callback();
+    name: 'Login',
+    data() {
+          return {
+            ruleForm: {
+              username: '',
+              userpassword: '',
+            },
+            rules: {
+                username: [
+                    { required: true, message: '不能为空', trigger: 'blur' },
+                    { min: 5, max: 20, message: '长度在 5 到 20 个字符', trigger: 'blur' }
+                ],
+                userpassword: [
+                    { required: true, message: '不能为空', trigger: 'blur' },
+                    { min: 5, max: 20, message: '长度在 5 到 20 个字符', trigger: 'blur' }
+                ]
+            }
           }
-        }
-      }, 1000);
-    };
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'));
-      } else {
-        if (this.ruleForm2.checkPass !== '') {
-          this.$refs.ruleForm2.validateField('checkPass');
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.ruleForm2.pass) {
-        callback(new Error('两次输入密码不一致!'));
-      } else {
-        callback();
-      }
-    };
-    return {
-      ruleForm2: {
-        pass: '',
-        checkPass: '',
-        age: ''
-      },
-      rules2: {
-        pass: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        checkPass: [
-          { validator: validatePass2, trigger: 'blur' }
-        ],
-        age: [
-          { validator: checkAge, trigger: 'blur' }
-        ]
-      }
-    };
-  },
-  methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.$router.push('/index');
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    methods: {
+        submitForm: function (formname) {
+            this.$refs[formname].validate((valid) => {
+                if (valid) {
+                    this.$store.state.info = {usernmae:'admin'}
+                    this.$store.state.logined = true;
+                    this.$router.push({path:'/index'})
+                } else {
+                    return false;
+                }
+            });
+        }
+    },
+    mounted: function () {
+        this.$store.dispatch('add');
+        alert(this.$store.state.count);
     }
-  }
-
 }
 </script>
 
-<style>
-
+<style scoped>
+.el-card >>>el-card__body{
+    padding-top: 5px;
+}
+.login{
+    margin-top: 10%;
+}
 </style>

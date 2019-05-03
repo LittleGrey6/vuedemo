@@ -1,60 +1,55 @@
 <template>
-  <div>
-    <el-header>
-      <vheader></vheader>
-    </el-header>
     <el-container>
-      <el-aside style="width: 200px;">
-        <vleft></vleft>
-      </el-aside>
-      <el-main>
-        <vtable></vtable>
-        <router-view name="main" class="main"/>
-      </el-main>
+        <el-header>
+            <vheader></vheader>
+        </el-header>
+        <el-container>
+            <el-aside >
+                <vmenu></vmenu>
+            </el-aside>
+            <el-main>
+                <vtabs></vtabs>
+                <div class="mainpage">
+                <router-view name="main" class="main"/>
+                </div>
+                <el-footer>
+                   	 我是页脚 版权所有
+                </el-footer>
+            </el-main>
+        </el-container>
     </el-container>
-    <el-footer>
-      我是页脚
-    </el-footer>
-
-  </div>
 </template>
 
-
 <script>
-  import Header from '@/components/header';
-  import Left from '@/components/left';
-  import vtables from '@/components/Vtabs'
-  import Vue from 'vue';
-
-Vue.component("vheader",Header);
-Vue.component("vleft",Left);
-Vue.component("vtable",vtables);
+//引入布局头部
+import vheader from "@/components/Header"
+import vmenu from "@/components/Menu"
+import vtabs from "@/components/Vtabs"
 export default {
- name: 'index',
-  data(){
-    return {
-      activeIndex: '1',
-      activeIndex2: '1'
-    };
-  },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+    name: 'Index',
+    components: {vheader, vmenu, vtabs},
+    beforeMount() {
+        this.$router.push({name:'messageIndex'})
+    },
+    watch:{
+        '$route':function(to,from){
+            this.$store.commit('addtab',{title:to.meta.title, name:to.path});
+        }
     }
-  }
-  }
-
+}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-  el-aside{ height: 100vh; background-color: rgb(84, 92, 100) }
-  el-main{ height: 100vh;}
-  .main{ height: 90vh;}
-  el-footer{ height: 10vh;}
- *{
-   margin: 0px;
-   padding: 0px;
- }
+el-container{ height: 100vh;}
+.el-container >>>el-header{
+    margin: 0;
+    padding: 0;
+    height: 10vh;
+}
+.el-header{padding: 0px!important;margin: 0px}
+.el-aside{ height: 90vh;}
+.el-main{ height: 90vh; padding:10px;}
+.el-main .el-tabs{height: 10vh;}
+.el-main .mainpage{height: 67vh;}
+.el-main .el-footer{ height: 5vh; }
 </style>

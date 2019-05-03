@@ -1,34 +1,25 @@
 <template>
   <div id="app">
-    <!--{{this.$store.state.count}}<el-button @click="add()">- </el-button>-->
     <router-view/>
-    <!--<HelloWorld></HelloWorld>-->
   </div>
 </template>
+
 <script>
-//  import HelloWorld from '@/components/HelloWorld';
-import login from '@/view/login'
-  export default {
+export default {
     name: 'App',
-    methods:{
-        add:function () {
-          this.$store.commit('increment')
-        },
-      dec:function () {
-        this.$store.dispatch('del')
-      }
-    },
-    components:{
-//      HelloWorld,
-    }
 }
 </script>
+
 <style>
+body{margin: 0; padding: 0}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
+.el-header{padding: 0px!important;margin: 0px}
+.el-aside{ height: 90vh; width: auto!important;}
+el-main{ height: 90vh; padding:10px;}
+el-main .main{ height: 90vh; }
+el-main el-footer{ height: 10vh; }
 </style>

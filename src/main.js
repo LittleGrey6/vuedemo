@@ -3,18 +3,18 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store/Store'
-import  ElementUI from 'element-ui'
+import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import store from  './store/Store'
 
 Vue.config.productionTip = false
-
+//使用ElementUI
 Vue.use(ElementUI)
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-   store,
-  components: { App },
-  template: '<App/>'
+    el: '#app',
+    router,
+    store,
+    components: { App },
+    template: '<App/>'
 })

@@ -1,15 +1,25 @@
 <template>
- <h1>我是编辑页</h1>
+    <el-container>
+        我是修改页
+    </el-container>
 </template>
 
 <script>
+//引入布局头部
 
 export default {
-
+    mounted: function () {
+        console.log(this.$route.query.id);
+    }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.el-header{
+    margin: 0;
+    padding: 0;
+}
+.el-header a{
+    text-decoration: none;
+}
 </style>
